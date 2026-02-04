@@ -1,9 +1,9 @@
-import './fab-button.style.css'
+import "./fab-button.style.css";
 
-export function FabButton({ children }) {
-    return (
-        <button className='fab'>
-            {children}
-        </button>
-    )
+export function FabButton({ children, ...rest }) {
+  return (
+    <button className="fab" {...rest}>
+      {children}
+    </button>
+  );
 }
