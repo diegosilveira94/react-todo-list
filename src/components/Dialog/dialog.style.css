@@ -19,3 +19,7 @@
   border: none;
   cursor: pointer;
 }
+
+.dialog .body {
+  padding: 8px 0;
+}
