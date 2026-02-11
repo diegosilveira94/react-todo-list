@@ -10,7 +10,8 @@ export function ToDoItem({ item }) {
     styles.push("completed");
   }
 
-  const { toggleTodoCompleted, deleteTodo } = use(TodoContext);
+  const { toggleTodoCompleted, deleteTodo, openFormTodoDialog } =
+    use(TodoContext);
 
   return (
     <li className={styles.join(" ")}>
@@ -29,7 +30,7 @@ export function ToDoItem({ item }) {
           <button className="btn" onClick={() => deleteTodo(item)}>
             <IconTrash />
           </button>
-          <button className="btn">
+          <button className="btn" onClick={() => openFormTodoDialog(item)}>
             <IconPencil />
           </button>
         </div>

@@ -8,9 +8,25 @@ export function TodoProvider({ children }) {
 
   const [todos, setTodos] = useState(savedTodos ? JSON.parse(savedTodos) : []);
 
+  const [showDialog, setShowDialog] = useState(false);
+
   useEffect(() => {
     localStorage.setItem(TODOS, JSON.stringify(todos));
   }, [todos]);
+
+  const [selectedTodo, setSelectedTodo] = useState(null);
+
+  const openFormTodoDialog = (todo) => {
+    if (todo) {
+      setSelectedTodo(todo);
+    }
+    setShowDialog(true);
+  };
+
+  const closeFormTodoDialog = () => {
+    setShowDialog(false);
+    setSelectedTodo(null);
+  };
 
   const addTodo = (formData) => {
     const description = formData.get("description");
@@ -22,6 +38,32 @@ export function TodoProvider({ children }) {
         createdAt: new Date().toISOString(),
       };
       return [...prevState, todo];
+    });
+  };
+
+  // const uploadTodo = (formData) => {
+  //   const description = formData.get("description");
+  //   selectedTodo.description = description;
+  //   setTodos((prevState) => {
+  //     const todo = {
+  //       ...selectedTodo,
+  //       description,
+  //     };
+  //     return [...prevState, todo];
+  //   });
+  // };
+
+  const uploadTodo = (formData) => {
+    setTodos((prevState) => {
+      return prevState.map((t) => {
+        if (t.id == selectedTodo.id) {
+          return {
+            ...t,
+            description: formData.get("description"),
+          };
+        }
+        return t;
+      });
     });
   };
 
@@ -50,8 +92,13 @@ export function TodoProvider({ children }) {
       value={{
         todos,
         addTodo,
+        uploadTodo,
         toggleTodoCompleted,
         deleteTodo,
+        showDialog,
+        openFormTodoDialog,
+        closeFormTodoDialog,
+        selectedTodo,
       }}
     >
       {children}
