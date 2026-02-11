@@ -6,14 +6,20 @@ export function Dialog({ isOpen, onClose, children }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
-    console.log("Devemos abrir o modal? ", isOpen);
-
     if (isOpen) {
       openDialog();
     } else {
       closeDialog();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    dialog?.addEventListener("close", onClose);
+    return () => {
+      dialog?.removeEventListener("close", onClose);
+    };
+  }, [onClose]);
 
   const openDialog = () => {
     dialogRef.current.showModal();
